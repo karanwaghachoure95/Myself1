@@ -3,6 +3,7 @@ package com.example.Myself.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,10 +13,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Protected {
 
 	@Id
-	private final int Id=1;
+	private int id;
 	private String username;
 	private String password;
 	
