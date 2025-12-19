@@ -4,11 +4,9 @@
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copy pom.xml and source
 COPY pom.xml .
 COPY src ./src
 
-# Build the JAR (skip tests)
 RUN mvn clean package -DskipTests
 
 # ===============================
@@ -17,11 +15,10 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Copy built JAR file
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose port (Render uses 8080)
+# Render ke liye (optional but ok)
 EXPOSE 8080
 
-# Run the JAR
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# ⭐ IMPORTANT: Render PORT binding
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]
