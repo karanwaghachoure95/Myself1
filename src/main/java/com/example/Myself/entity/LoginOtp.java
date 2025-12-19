@@ -1,0 +1,23 @@
+package com.example.Myself.entity;
+
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoginOtp {
+  @Id
+  private final int id=1;
+  private String otp;
+  private LocalDateTime expiryTime;
+}
