@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LoginOtp {
   @Id
-  private final int id=1;
+  private  int id;
   private String otp;
   private LocalDateTime expiryTime;
 }
