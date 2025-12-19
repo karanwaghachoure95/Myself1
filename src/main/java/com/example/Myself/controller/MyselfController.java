@@ -30,11 +30,17 @@ public class MyselfController {
 
     /* ================= ACCOUNT CREATE ================= */
 
-    @GetMapping({"/", "/accountForm"})
+    @GetMapping("/")
     public String accountForm() {
         return "accountForm";
     }
 
+    @GetMapping("/accountForm")
+    public String account() {
+        return "/accountForm";
+    }
+
+    
     @PostMapping("/accountForm")
     public String createAccount(@ModelAttribute Account user, RedirectAttributes ra , Protected user1) {
         boolean yes = myselfservice.start(user);
