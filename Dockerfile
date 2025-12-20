@@ -17,8 +17,7 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
-# Render ke liye (optional but ok)
 EXPOSE 8080
 
-# ⭐ IMPORTANT: Render PORT binding
-ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]
+# ✅ CORRECT way for Render
+CMD java -jar app.jar --server.port=$PORT
