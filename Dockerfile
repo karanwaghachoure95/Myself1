@@ -12,7 +12,7 @@ FROM tomcat:9.0-jdk17-temurin
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Optional: bind Render PORT dynamically
-ENV CATALINA_OPTS="-Dserver.port=$PORT"
+ENV PORT=8080
 
 # Deploy WAR as ROOT
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
