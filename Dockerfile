@@ -1,23 +1,25 @@
-# ===============================
-# ✅ Step 1: Build Stage
-# ===============================
+# Step 1: Build WAR
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-
-COPY pom.xml .
+COPY pom.xml . 
 COPY src ./src
-
 RUN mvn clean package -DskipTests
 
-# ===============================
-# ✅ Step 2: Run Stage
-# ===============================
-FROM eclipse-temurin:17-jre-jammy
-WORKDIR /app
+# Step 2: Run on Tomcat
+FROM tomcat:9.0-jdk17-temurin
 
-COPY --from=build /app/target/*.jar app.jar
+# Clean default apps
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Optional: bind Render PORT dynamically
+ENV CATALINA_OPTS="-Dserver.port=$PORT"
+
+# Deploy WAR as ROOT
+COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+
+# Optional: logs to stdout
+RUN ln -sf /dev/stdout /usr/local/tomcat/logs/catalina.out
 
 EXPOSE 8080
 
-# ✅ CORRECT way for Render
-CMD java -jar app.jar --server.port=$PORT
+CMD ["catalina.sh", "run"]
