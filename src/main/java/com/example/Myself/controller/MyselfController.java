@@ -30,9 +30,9 @@ public class MyselfController {
 
     /* ================= ACCOUNT CREATE ================= */
 
-    @GetMapping("")
+    @GetMapping("/")
     public String accountForm() {
-        return "redirect:/accountForm";
+        return "accountForm";
     }
 
     @GetMapping("/accountForm")
