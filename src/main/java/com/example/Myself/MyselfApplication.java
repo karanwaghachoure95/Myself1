@@ -17,3 +17,4 @@ public class MyselfApplication extends SpringBootServletInitializer {
         SpringApplication.run(MyselfApplication.class, args);
     }
 }
+
