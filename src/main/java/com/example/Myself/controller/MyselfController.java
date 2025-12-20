@@ -32,7 +32,7 @@ public class MyselfController {
 
     @GetMapping("/")
     public String accountForm() {
-        return "accountForm";
+        return "redirect:/accountForm";
     }
 
     @GetMapping("/accountForm")
