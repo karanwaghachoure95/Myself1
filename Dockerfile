@@ -1,25 +1,27 @@
-# Step 1: Build WAR
+# ===============================
+# ✅ Step 1: Build Stage
+# ===============================
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY pom.xml . 
+
+# Copy pom.xml and source
+COPY pom.xml .
 COPY src ./src
+
+# Build the WAR (skip tests for faster build)
 RUN mvn clean package -DskipTests
 
-# Step 2: Run on Tomcat
-FROM tomcat:9.0-jdk17-temurin
+# ===============================
+# ✅ Step 2: Run Stage
+# ===============================
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
 
-# Clean default apps
-RUN rm -rf /usr/local/tomcat/webapps/*
+# Copy built WAR file from build stage
+COPY --from=build /app/target/*.war app.war
 
-# Optional: bind Render PORT dynamically
-ENV PORT=8080
-
-# Deploy WAR as ROOT
-COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
-
-# Optional: logs to stdout
-RUN ln -sf /dev/stdout /usr/local/tomcat/logs/catalina.out
-
+# Expose port 8080 for Render
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+# Run the WAR file
+ENTRYPOINT ["java", "-jar", "app.war"]
